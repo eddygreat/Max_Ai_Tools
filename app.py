@@ -39,14 +39,15 @@ st.markdown("<h1 style='text-align: center; color: #4B8BBE;'>MNIST Digit Classif
 tab1, tab2 = st.tabs(["✏️ Draw Digit", "📁 Upload Image"])
 
 def preprocess_image(img):
-    img_array = np.array(img) / 255.0
+    img = img.resize((28, 28)).convert('L')
+    img_array = np.array(img).astype('float32') / 255.0
     img_array = img_array.reshape(1, 28, 28, 1)
     return img_array
 
 def predict_digit(img_array):
     if np.sum(img_array) < 0.1:
         st.warning("Please draw a digit or upload a clearer image.")
-        return None, None
+        return None, None, None
     prediction = model.predict(img_array)
     return np.argmax(prediction), np.max(prediction), prediction
 
@@ -64,12 +65,16 @@ with tab1:
     )
 
     if canvas_result.image_data is not None:
-        img = Image.fromarray((canvas_result.image_data[:, :, 0]).astype('uint8')).resize((28, 28))
+        img = Image.fromarray(canvas_result.image_data.astype('uint8')).convert('L')
+        img = ImageOps.invert(img).resize((28, 28)).filter(ImageFilter.GaussianBlur(radius=1))
         img_array = preprocess_image(img)
+
+        st.image(img, caption="Preprocessed Digit", width=150)
+        st.write("Input shape:", img_array.shape)
+
         predicted_label, confidence, raw_scores = predict_digit(img_array)
 
         if predicted_label is not None:
-            st.image(img, caption="Processed Digit", width=150)
             st.markdown(f"<h3 style='color: #228B22;'>Predicted Digit: {predicted_label}</h3>", unsafe_allow_html=True)
             st.markdown(f"<p>Confidence: {confidence:.2%}</p>", unsafe_allow_html=True)
 
@@ -85,10 +90,15 @@ with tab2:
 
     if uploaded_file is not None:
         image = Image.open(uploaded_file).convert('L')
-        image = ImageOps.invert(image).resize((28, 28)).filter(ImageFilter.GaussianBlur(radius=1))
+        invert = st.checkbox("Invert image colors", value=True)
+        if invert:
+            image = ImageOps.invert(image)
+        image = image.resize((28, 28)).filter(ImageFilter.GaussianBlur(radius=1))
         img_array = preprocess_image(image)
 
-        st.image(image, caption="Uploaded Digit", width=150)
+        st.image(image, caption="Preprocessed Image", width=150)
+        st.write("Input shape:", img_array.shape)
+
         predicted_label, confidence, raw_scores = predict_digit(img_array)
 
         if predicted_label is not None:
