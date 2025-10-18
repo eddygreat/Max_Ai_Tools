@@ -28,7 +28,7 @@ Follow these steps to set up and run the project locally.
 If your project is in a Git repository, clone it using:
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/eddygreat/Max_Ai_Tools
 cd <your-project-directory>
 ```
 
@@ -99,3 +99,4 @@ Feel free to fork this repository, make improvements, and submit pull requests. 
 ## License
 
 This project is open-source and available under the [MIT License](LICENSE).
+
