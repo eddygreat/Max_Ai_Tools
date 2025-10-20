@@ -5,6 +5,7 @@ This project implements a web-based MNIST Digit Classifier using a Convolutional
 ### Live Demo
 
 You can access the live web application here: [MNIST Digit Classifier App](https://maxaitools.streamlit.app/)
+This is the link to my theory answers and screen shoot of my deployed [application](https://docs.google.com/document/d/1ceqlW72HR3Kf3K5WpFerXUkNofwQo1yUHASxeDDa-PU/edit?tab=t.0)
 
 ## Features
 
@@ -99,4 +100,5 @@ Feel free to fork this repository, make improvements, and submit pull requests. 
 ## License
 
 This project is open-source and available under the [MIT License](LICENSE).
+
 
