@@ -2,6 +2,7 @@ streamlit
 numpy
 tensorflow
 Pillow
-landingai-streamlit-drawable-canvas
+streamlit-drawable-canvas
+
 
 
